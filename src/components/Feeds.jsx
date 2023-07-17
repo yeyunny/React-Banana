@@ -10,12 +10,13 @@ function Feeds({ url }) {
   };
 
   const submitHandler = () => {
-    setCommentsList((prev) => [...prev, comments]);
+    let dateId = Date.now();
+    setCommentsList((prev) => [...prev, { id: dateId, text: comments }]);
     setComments("");
   };
 
-  const deleteHandler = (comment) => {
-    const list = commentsList.filter((item) => item !== comment);
+  const deleteHandler = (commentId) => {
+    const list = commentsList.filter((item) => item.id !== commentId);
     setCommentsList(list);
   };
 
@@ -23,11 +24,11 @@ function Feeds({ url }) {
     <div>
       <img src={url} alt="NANA" />
       <div>
-        {commentsList.map((comment, index) => {
+        {commentsList.map((comment) => {
           return (
             <div className="commentList">
-              <span key={index}>{comment}</span>
-              <button onClick={() => deleteHandler(comment)}>✖️</button>
+              <span key={comment.id}>{comment.text}</span>
+              <button onClick={() => deleteHandler(comment.id)}>✖️</button>
             </div>
           );
         })}
